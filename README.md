@@ -74,7 +74,7 @@ A solução proposta é o **FBSys**, uma aplicação web responsiva composta por
 
 # FBSYS
 | Módulo | Descrição |
-| :--- | :--- | :--- |
+| :----: | :---------: |
 | Módulo Balcão / Cliente | Registro rápido do pedido     |
 | Módulo Cozinha (KDS)    | Fila dinâmica e status ao vivo|
 | Módulo Gestor/Analytics | Gráficos de hábitos e estoque |
