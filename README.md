@@ -3,7 +3,7 @@
 > **Projeto de Extensão Acadêmica**  
 > **Disciplina:** Desenvolvimento Web  
 > **Instituição:** Universidade Federal do Ceará (UFC)  
-> **Equipe:** Jefferson de Azevedo Maciel,   
+> **Equipe:** Jefferson de Azevedo Maciel, Cecília Abintes Gadelha 
 
 ---
 
