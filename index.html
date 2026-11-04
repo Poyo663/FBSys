@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frut Bom - Sistema de Pedidos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#F472B6',
+                            lightPink: '#FDF2F8',
+                            mint: '#34D399',
+                            lightMint: '#ECFDF5',
+                            cream: '#FFFBEB',
+                            choco: '#371B11',
+                            chocoLight: '#522E21'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better visual experience */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 bg-gradient-to-br from-pink-50 via-amber-50 to-emerald-50">
+
+    <!-- Header Navigation -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-pink-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-pink to-amber-400 flex items-center justify-center shadow-md text-white font-bold text-xl">
+                    <i class="fa-solid font-bold fa-ice-cream"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-brand-choco">Frut Bom</h1>
+                    <p class="text-xs text-pink-600 font-medium">Sorveteria & Gelateria</p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-2 text-xs font-medium text-slate-500">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">
+                    <span class="w-2 h-2 mr-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Atendimento Online
+                </span>
+                <span class="text-slate-300">|</span>
+                <span>Unidade Centro - Quixadá</span>
+            </div>
+        </div>
+
+        <!-- Progress Steps Bar -->
+        <div class="bg-white border-t border-slate-100 px-4 py-2">
+            <div class="max-w-4xl mx-auto flex items-center justify-between">
+                <!-- Step 1 -->
+                <div id="step-indicator-1" class="step-indicator flex items-center space-x-2 text-brand-pink font-semibold">
+                    <span class="w-7 h-7 rounded-full bg-pink-500 text-white flex items-center justify-center text-xs shadow">1</span>
+                    <span class="hidden sm:inline text-sm">Recipiente</span>
+                </div>
+                <div class="flex-1 h-0.5 mx-2 bg-slate-200" id="line-1"></div>
+                
+                <!-- Step 2 -->
+                <div id="step-indicator-2" class="step-indicator flex items-center space-x-2 text-slate-400 font-medium">
+                    <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs">2</span>
+                    <span class="hidden sm:inline text-sm">Sabores</span>
+                </div>
+                <div class="flex-1 h-0.5 mx-2 bg-slate-200" id="line-2"></div>
+                
+                <!-- Step 3 -->
+                <div id="step-indicator-3" class="step-indicator flex items-center space-x-2 text-slate-400 font-medium">
+                    <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs">3</span>
+                    <span class="hidden sm:inline text-sm">Acompanhamentos</span>
+                </div>
+                <div class="flex-1 h-0.5 mx-2 bg-slate-200" id="line-3"></div>
+                
+                <!-- Step 4 -->
+                <div id="step-indicator-4" class="step-indicator flex items-center space-x-2 text-slate-400 font-medium">
+                    <span class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs">4</span>
+                    <span class="hidden sm:inline text-sm">Revisão</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Column: Interactive Form Steps -->
+            <div class="lg:col-span-8 bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-sm border border-slate-100">
+
+                <!-- STEP 1: Select Base / Size -->
+                <section id="step-1" class="step-content space-y-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-bowl-food text-brand-pink"></i> 1. Escolha a Base ou Recipiente
+                        </h2>
+                        <p class="text-sm text-slate-500">Selecione o tamanho ideal para o seu sorvete.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Option Card: Copo Pequeno -->
+                        <div onclick="selectContainer('Copo 200ml', 8.00, 2)" 
+                             class="container-option cursor-pointer border-2 border-slate-200 hover:border-brand-pink rounded-xl p-4 transition-all duration-200 flex flex-col justify-between hover:shadow-md bg-white group">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-block p-2 bg-pink-50 text-brand-pink rounded-lg mb-2 group-hover:bg-brand-pink group-hover:text-white transition">
+                                        <i class="fa-solid fa-glass-water text-xl"></i>
+                                    </span>
+                                    <h3 class="font-bold text-slate-800 text-lg">Copo 200ml</h3>
+                                    <p class="text-xs text-slate-500">Até 2 bolas de sorvete</p>
+                                </div>
+                                <span class="font-bold text-brand-choco text-lg">R$ 8,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Option Card: Copo Médio -->
+                        <div onclick="selectContainer('Copo 300ml', 12.00, 3)" 
+                             class="container-option cursor-pointer border-2 border-slate-200 hover:border-brand-pink rounded-xl p-4 transition-all duration-200 flex flex-col justify-between hover:shadow-md bg-white group">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-block p-2 bg-amber-50 text-amber-600 rounded-lg mb-2 group-hover:bg-amber-500 group-hover:text-white transition">
+                                        <i class="fa-solid fa-whiskey-glass text-xl"></i>
+                                    </span>
+                                    <h3 class="font-bold text-slate-800 text-lg">Copo 300ml</h3>
+                                    <p class="text-xs text-slate-500">Até 3 bolas de sorvete</p>
+                                </div>
+                                <span class="font-bold text-brand-choco text-lg">R$ 12,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Option Card: Casquinha Tradicional -->
+                        <div onclick="selectContainer('Casquinha Tradicional', 9.50, 2)" 
+                             class="container-option cursor-pointer border-2 border-slate-200 hover:border-brand-pink rounded-xl p-4 transition-all duration-200 flex flex-col justify-between hover:shadow-md bg-white group">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-block p-2 bg-emerald-50 text-brand-mint rounded-lg mb-2 group-hover:bg-brand-mint group-hover:text-white transition">
+                                        <i class="fa-solid fa-ice-cream text-xl"></i>
+                                    </span>
+                                    <h3 class="font-bold text-slate-800 text-lg">Casquinha Simples</h3>
+                                    <p class="text-xs text-slate-500">Crocante, até 2 bolas</p>
+                                </div>
+                                <span class="font-bold text-brand-choco text-lg">R$ 9,50</span>
+                            </div>
+                        </div>
+
+                        <!-- Option Card: Cascão Especial -->
+                        <div onclick="selectContainer('Cascão Especial', 15.00, 3)" 
+                             class="container-option cursor-pointer border-2 border-slate-200 hover:border-brand-pink rounded-xl p-4 transition-all duration-200 flex flex-col justify-between hover:shadow-md bg-white group">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-block p-2 bg-purple-50 text-purple-600 rounded-lg mb-2 group-hover:bg-purple-600 group-hover:text-white transition">
+                                        <i class="fa-solid fa-stroopwafel text-xl"></i>
+                                    </span>
+                                    <h3 class="font-bold text-slate-800 text-lg">Cascão Especial</h3>
+                                    <p class="text-xs text-slate-500">Borda recheada de Nutella, até 3 bolas</p>
+                                </div>
+                                <span class="font-bold text-brand-choco text-lg">R$ 15,00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-end">
+                        <button onclick="goToStep(2)" id="btn-step1-next" disabled 
+                                class="px-6 py-3 rounded-xl bg-slate-200 text-slate-400 font-semibold transition flex items-center gap-2 cursor-not-allowed">
+                            Próximo: Escolher Sabores <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- STEP 2: Select Flavors -->
+                <section id="step-2" class="step-content space-y-6 hidden">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-cubes-stacked text-brand-pink"></i> 2. Selecione os Sabores
+                            </h2>
+                            <p class="text-sm text-slate-500">Você pode escolher até <span id="max-flavors-count" class="font-bold text-brand-pink">2</span> bola(s).</p>
+                        </div>
+                        <span id="flavor-counter" class="text-xs font-semibold px-3 py-1 bg-pink-100 text-pink-700 rounded-full">
+                            0 de 2 selecionados
+                        </span>
+                    </div>
+
+                    <!-- Flavor Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <!-- Flavor Item 1 -->
+                        <div class="flavor-card border border-slate-200 rounded-xl p-3 flex flex-col justify-between bg-white hover:border-pink-300 transition">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 font-bold">
+                                    🍫
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Chocolate 70%</h4>
+                                    <span class="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-medium">Mais Vendido</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                                <span class="text-xs text-slate-500">Artesanal</span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="changeFlavorQty('Chocolate 70%', -1)" class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">-</button>
+                                    <span id="qty-Chocolate 70%" class="text-sm font-bold text-slate-800 w-4 text-center">0</span>
+                                    <button onclick="changeFlavorQty('Chocolate 70%', 1)" class="w-7 h-7 rounded-full bg-brand-pink hover:bg-pink-600 text-white font-bold flex items-center justify-center text-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flavor Item 2 -->
+                        <div class="flavor-card border border-slate-200 rounded-xl p-3 flex flex-col justify-between bg-white hover:border-pink-300 transition">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-red-100 border border-red-200 flex items-center justify-center text-red-600 font-bold">
+                                    🍓
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Morango Real</h4>
+                                    <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-medium">Sem Glúten</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                                <span class="text-xs text-slate-500">Com pedaços</span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="changeFlavorQty('Morango Real', -1)" class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">-</button>
+                                    <span id="qty-Morango Real" class="text-sm font-bold text-slate-800 w-4 text-center">0</span>
+                                    <button onclick="changeFlavorQty('Morango Real', 1)" class="w-7 h-7 rounded-full bg-brand-pink hover:bg-pink-600 text-white font-bold flex items-center justify-center text-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flavor Item 3 -->
+                        <div class="flavor-card border border-slate-200 rounded-xl p-3 flex flex-col justify-between bg-white hover:border-pink-300 transition">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-yellow-100 border border-yellow-200 flex items-center justify-center text-yellow-700 font-bold">
+                                    🥛
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Ninho c/ Nutella</h4>
+                                    <span class="text-[10px] bg-pink-100 text-pink-800 px-1.5 py-0.5 rounded font-medium">Favorito</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                                <span class="text-xs text-slate-500">Cremoso</span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="changeFlavorQty('Ninho c/ Nutella', -1)" class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">-</button>
+                                    <span id="qty-Ninho c/ Nutella" class="text-sm font-bold text-slate-800 w-4 text-center">0</span>
+                                    <button onclick="changeFlavorQty('Ninho c/ Nutella', 1)" class="w-7 h-7 rounded-full bg-brand-pink hover:bg-pink-600 text-white font-bold flex items-center justify-center text-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flavor Item 4 -->
+                        <div class="flavor-card border border-slate-200 rounded-xl p-3 flex flex-col justify-between bg-white hover:border-pink-300 transition">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 font-bold">
+                                    🍃
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Menta c/ Chips</h4>
+                                    <span class="text-[10px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-medium">Refrescante</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                                <span class="text-xs text-slate-500">Fresco</span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="changeFlavorQty('Menta c/ Chips', -1)" class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">-</button>
+                                    <span id="qty-Menta c/ Chips" class="text-sm font-bold text-slate-800 w-4 text-center">0</span>
+                                    <button onclick="changeFlavorQty('Menta c/ Chips', 1)" class="w-7 h-7 rounded-full bg-brand-pink hover:bg-pink-600 text-white font-bold flex items-center justify-center text-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flavor Item 5 -->
+                        <div class="flavor-card border border-slate-200 rounded-xl p-3 flex flex-col justify-between bg-white hover:border-pink-300 transition">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-orange-100 border border-orange-200 flex items-center justify-center text-orange-700 font-bold">
+                                    🥭
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800 text-sm">Sorbet de Manga</h4>
+                                    <span class="text-[10px] bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded font-medium">0% Lactose</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                                <span class="text-xs text-slate-500">Fruta Natural</span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="changeFlavorQty('Sorbet de Manga', -1)" class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm">-</button>
+                                    <span id="qty-Sorbet de Manga" class="text-sm font-bold text-slate-800 w-4 text-center">0</span>
+                                    <button onclick="changeFlavorQty('Sorbet de Manga', 1)" class="w-7 h-7 rounded-full bg-brand-pink hover:bg-pink-600 text-white font-bold flex items-center justify-center text-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flavor Item 6 (Unavailable example) -->
+                        <div class="flavor-card border border-slate-100 bg-slate-50 rounded-xl p-3 flex flex-col justify-between opacity-60 relative overflow-hidden">
+                            <span class="absolute top-2 right-2 bg-slate-200 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded">Esgotado</span>
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-500 font-bold">
+                                    🥜
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-700 text-sm">Pistache Premium</h4>
+                                    <span class="text-[10px] text-slate-400">Em produção</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-200">
+                                <span class="text-xs text-slate-400">Indisponível</span>
+                                <button disabled class="w-7 h-7 rounded-full bg-slate-200 text-slate-400 font-bold flex items-center justify-center text-sm cursor-not-allowed">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-between items-center">
+                        <button onclick="goToStep(1)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 hover:bg-slate-100 transition font-medium text-sm">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Voltar
+                        </button>
+                        <button onclick="goToStep(3)" id="btn-step2-next" disabled 
+                                class="px-6 py-3 rounded-xl bg-slate-200 text-slate-400 font-semibold transition flex items-center gap-2 cursor-not-allowed">
+                            Próximo: Adicionais <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- STEP 3: Toppings & Extras -->
+                <section id="step-3" class="step-content space-y-6 hidden">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-cookie text-brand-pink"></i> 3. Caldas e Acompanhamentos
+                        </h2>
+                        <p class="text-sm text-slate-500">Dê o toque final ao seu sorvete Frut Bom.</p>
+                    </div>
+
+                    <!-- Caldas (Free or Low cost) -->
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Caldas (Escolha até 1 inclusa)</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label class="topping-checkbox cursor-pointer border rounded-xl p-3 flex items-center justify-between bg-white hover:border-pink-300 transition">
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" onchange="toggleTopping('Calda de Chocolate', 0.00, this)" class="w-4 h-4 text-brand-pink rounded focus:ring-brand-pink">
+                                    <span class="text-sm font-medium text-slate-800">Chocolate</span>
+                                </div>
+                                <span class="text-xs text-emerald-600 font-bold">Grátis</span>
+                            </label>
+
+                            <label class="topping-checkbox cursor-pointer border rounded-xl p-3 flex items-center justify-between bg-white hover:border-pink-300 transition">
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" onchange="toggleTopping('Calda de Morango', 0.00, this)" class="w-4 h-4 text-brand-pink rounded focus:ring-brand-pink">
+                                    <span class="text-sm font-medium text-slate-800">Morango</span>
+                                </div>
+                                <span class="text-xs text-emerald-600 font-bold">Grátis</span>
+                            </label>
+
+                            <label class="topping-checkbox cursor-pointer border rounded-xl p-3 flex items-center justify-between bg-white hover:border-pink-300 transition">
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" onchange="toggleTopping('Caramelo Salgado', 1.50, this)" class="w-4 h-4 text-brand-pink rounded focus:ring-brand-pink">
+                                    <span class="text-sm font-medium text-slate-800">Caramelo Salgado</span>
+                                </div>
+                                <span class="text-xs text-slate-500 font-medium">+R$ 1,50</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Coberturas / Toppings -->
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Toppings Crocantes</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <label class="topping-checkbox cursor-pointer border rounded-xl p-3 flex items-center justify-between bg-white hover:border-pink-300 transition">
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" onchange="toggleTopping('Granulado Crocante', 1.00, this)" class="w-4 h-4 text-brand-pink rounded focus:ring-brand-pink">
+                                    <span class="text-sm font-medium text-slate-800">Granulado Premium</span>
+                                </div>
+                                <span class="text-xs text-slate-600 font-bold">+R$ 1,00</span>
+                            </label>
+
+                            <label class="topping-checkbox cursor-pointer border rounded-xl p-3 flex items-center justify-between bg-white hover:border-pink-300 transition">
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" onchange="toggleTopping('Castanha de Caju', 2.00, this)" class="w-4 h-4 text-brand-pink rounded focus:ring-brand-pink">
+                                    <span class="text-sm font-medium text-slate-800">Castanha Triturada</span>
+                                </div>
+                                <span class="text-xs text-slate-600 font-bold">+R$ 2,00</span>
+                            </label>
+
+                            <label class="topping-checkbox cursor-pointer border rounded-xl p-3 flex items-center justify-between bg-white hover:border-pink-300 transition">
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" onchange="toggleTopping('Confetes de Chocolate', 1.50, this)" class="w-4 h-4 text-brand-pink rounded focus:ring-brand-pink">
+                                    <span class="text-sm font-medium text-slate-800">M&Ms / Confetes</span>
+                                </div>
+                                <span class="text-xs text-slate-600 font-bold">+R$ 1,50</span>
+                            </label>
+
+                            <label class="topping-checkbox cursor-pointer border rounded-xl p-3 flex items-center justify-between bg-white hover:border-pink-300 transition">
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" onchange="toggleTopping('Chantilly Tradicional', 2.50, this)" class="w-4 h-4 text-brand-pink rounded focus:ring-brand-pink">
+                                    <span class="text-sm font-medium text-slate-800">Chantilly Fresco</span>
+                                </div>
+                                <span class="text-xs text-slate-600 font-bold">+R$ 2,50</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-between items-center">
+                        <button onclick="goToStep(2)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 hover:bg-slate-100 transition font-medium text-sm">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Voltar
+                        </button>
+                        <button onclick="goToStep(4)" class="px-6 py-3 rounded-xl bg-brand-pink hover:bg-pink-600 text-white font-semibold transition shadow-md flex items-center gap-2">
+                            Revisar Pedido <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- STEP 4: Review and Customer Identification -->
+                <section id="step-4" class="step-content space-y-6 hidden">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-check text-brand-pink"></i> 4. Identificação e Finalização
+                        </h2>
+                        <p class="text-sm text-slate-500">Identifique o cliente para podermos chamar pelo nome e acumular pontos.</p>
+                    </div>
+
+                    <!-- Customer Form -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome do Cliente *</label>
+                            <input type="text" id="customer-name" placeholder="Ex: Maria Oliveira" 
+                                   class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-pink focus:border-transparent outline-none bg-white text-sm">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">WhatsApp / Telefone (Opcional)</label>
+                                <input type="tel" id="customer-phone" placeholder="(88) 99999-9999" 
+                                       class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-pink focus:border-transparent outline-none bg-white text-sm">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Forma de Pagamento</label>
+                                <select id="payment-method" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-pink focus:border-transparent outline-none bg-white text-sm">
+                                    <option value="Pix">Pix (Qrcode no Balcão)</option>
+                                    <option value="Cartão de Débito/Crédito">Cartão Débito / Crédito</option>
+                                    <option value="Dinheiro">Dinheiro em Espécie</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Final Order Summary Confirmation Box -->
+                    <div class="border border-amber-200 bg-amber-50/50 p-4 rounded-xl space-y-2">
+                        <h4 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-amber-600"></i> Resumo Rápido
+                        </h4>
+                        <div id="final-summary-details" class="text-xs text-slate-600 space-y-1">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-between items-center">
+                        <button onclick="goToStep(3)" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 hover:bg-slate-100 transition font-medium text-sm">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Voltar
+                        </button>
+                        <button onclick="submitOrder()" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold transition shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-check text-lg"></i> Confirmar e Enviar Pedido
+                        </button>
+                    </div>
+                </section>
+
+                <!-- SUCCESS SCREEN (Hidden by default) -->
+                <section id="step-success" class="hidden text-center py-8 space-y-6">
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider">Pedido #<span id="order-id">042</span> Enviado!</span>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-2">Pedido na Fila da Cozinha</h2>
+                        <p class="text-sm text-slate-500 max-w-md mx-auto mt-1">
+                            Obrigado, <span id="success-customer-name" class="font-bold text-slate-700">Cliente</span>! Seu pedido já está no painel do atendente e será preparado em instantes.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 max-w-xs mx-auto text-left text-xs space-y-2">
+                        <div class="flex justify-between text-slate-500">
+                            <span>Status:</span>
+                            <span class="font-bold text-amber-600">🟡 Em Preparo</span>
+                        </div>
+                        <div class="flex justify-between text-slate-500">
+                            <span>Tempo Médio:</span>
+                            <span class="font-bold text-slate-700">~ 4 minutos</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button onclick="resetForm()" class="px-6 py-3 bg-brand-choco text-white rounded-xl font-semibold hover:bg-brand-chocoLight transition shadow">
+                            <i class="fa-solid fa-plus mr-1"></i> Fazer Novo Pedido
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column: Sticky Live Order Summary Card -->
+            <div class="lg:col-span-4 sticky top-24">
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-pink-100 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-receipt text-brand-pink"></i> Seu Pedido
+                        </h3>
+                        <span class="text-xs bg-pink-50 text-pink-700 font-semibold px-2.5 py-0.5 rounded-full" id="summary-container-name">Nenhum</span>
+                    </div>
+
+                    <!-- Items List -->
+                    <div class="space-y-3 min-h-[140px]" id="summary-items-container">
+                        <div class="text-center py-8 text-slate-400 text-xs flex flex-col items-center">
+                            <i class="fa-solid fa-ice-cream text-3xl mb-2 text-slate-200"></i>
+                            <span>Selecione a base do seu sorvete para começar</span>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <!-- Breakdown & Total -->
+                    <div class="space-y-1.5 text-xs text-slate-600">
+                        <div class="flex justify-between">
+                            <span>Base:</span>
+                            <span id="price-base">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Adicionais/Toppings:</span>
+                            <span id="price-toppings">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between pt-2 text-base font-bold text-brand-choco border-t border-slate-100">
+                            <span>Total:</span>
+                            <span id="price-total" class="text-brand-pink text-xl">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
+            Protótipo desenvolvido para a disciplina de Desenvolvimento Web • Projeto de Extensão Sorveteria Frut Bom
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript State Logic -->
+    <script src="./main.js"></script>
+</body>
+</html>
