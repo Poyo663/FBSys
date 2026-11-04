@@ -72,8 +72,9 @@ Desenvolver e implantar uma aplicação web voltada para sorveterias de pequeno 
 
 A solução proposta é o **FBSys**, uma aplicação web responsiva composta por três pilares fundamentais:
 
-FBSYS
+# FBSYS
 | Módulo | Descrição |
+| :--- | :--- | :--- |
 | Módulo Balcão / Cliente | Registro rápido do pedido     |
 | Módulo Cozinha (KDS)    | Fila dinâmica e status ao vivo|
 | Módulo Gestor/Analytics | Gráficos de hábitos e estoque |
