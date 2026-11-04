@@ -73,9 +73,10 @@ Desenvolver e implantar uma aplicação web voltada para sorveterias de pequeno 
 A solução proposta é o **FBSys**, uma aplicação web responsiva composta por três pilares fundamentais:
 
 FBSYS
-1. Módulo Balcão / Cliente ---> Registro rápido do pedido      
-2. Módulo Cozinha (KDS)    ---> Fila dinâmica e status ao vivo 
-3. Módulo Gestor/Analytics ---> Gráficos de hábitos e estoque  
+| Módulo | Descrição |
+| Módulo Balcão / Cliente | Registro rápido do pedido     |
+| Módulo Cozinha (KDS)    | Fila dinâmica e status ao vivo|
+| Módulo Gestor/Analytics | Gráficos de hábitos e estoque |
 
 1. **Terminal de Atendimento Rápido:** Interface focada na velocidade, permitindo que o atendente Monte o copo/casquinha com adicionais de forma simples e direta no tablet/PC do balcão.
 2. **Painel Dinâmico da Cozinha/Balcão:** Substitui as fichas de papel por um Kanban digital que destaca pedidos atrasados e organiza a ordem de preparo.
