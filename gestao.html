@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frut Bom - Gestão e Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-container">
+            <div class="brand-group">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-ice-cream"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">Frut Bom</h1>
+                    <p class="brand-subtitle">Sorveteria & Gelateria</p>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Novo Pedido</a>
+                <a href="cozinha.html" class="nav-link">Cozinha (KDS)</a>
+                <a href="gestao.html" class="nav-link active">Gestão & Relatórios</a>
+            </nav>
+
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span>Painel Administrativo</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <div class="page-header">
+            <div>
+                <h2 class="page-title">Inteligência Comercial e Catálogo</h2>
+                <p class="page-desc">Indicadores de vendas, horários de maior movimento e controle de sabores.</p>
+            </div>
+            <div>
+                <select id="period-filter" class="form-control" onchange="updateAnalyticsPeriod()">
+                    <option value="hoje">Período: Hoje</option>
+                    <option value="semana">Período: Últimos 7 dias</option>
+                    <option value="mes">Período: Mês Atual</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Indicadores Principais (KPIs) -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Faturamento</div>
+                <div class="kpi-value" id="kpi-revenue">R$ 642,50</div>
+                <div class="kpi-sub">+14% em relação ao período anterior</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Pedidos Concluídos</div>
+                <div class="kpi-value" id="kpi-orders">48</div>
+                <div class="kpi-sub">Tempo médio de preparo: 4 min</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Ticket Médio</div>
+                <div class="kpi-value" id="kpi-ticket">R$ 13,38</div>
+                <div class="kpi-sub">Recipiente líder: Copo 300ml</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Sabor Mais Pedido</div>
+                <div class="kpi-value" id="kpi-top-flavor" style="font-size:1.3rem; padding-top:0.25rem;">Ninho c/ Nutella</div>
+                <div class="kpi-sub">38% das bolas servidas</div>
+            </div>
+        </section>
+
+        <!-- Gráficos Analíticos (RF05) -->
+        <section class="analytics-grid">
+            <!-- Ranking de Sabores -->
+            <div class="panel-card">
+                <h3 class="section-title">Saída por Sabor (Previsão de Estoque)</h3>
+                <div class="bar-chart" id="flavors-chart">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+
+            <!-- Horários de Pico -->
+            <div class="panel-card">
+                <h3 class="section-title">Fluxo de Atendimento por Horário</h3>
+                <div class="hours-chart" id="hours-chart">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Gestão de Produtos e Sabores (RF01) -->
+        <section class="catalog-grid">
+            <div class="panel-card">
+                <h3 class="section-title">Cadastrar Novo Item</h3>
+                <form id="product-form" onsubmit="addProduct(event)">
+                    <div class="form-group">
+                        <label class="form-label">Nome do Sabor / Item</label>
+                        <input type="text" id="prod-name" class="form-control" placeholder="Ex: Creme com Passas" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Categoria</label>
+                        <select id="prod-category" class="form-control">
+                            <option value="Sabor">Sabor de Sorvete</option>
+                            <option value="Calda">Calda</option>
+                            <option value="Topping">Topping Crocante</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Característica / Tag</label>
+                        <input type="text" id="prod-tag" class="form-control" placeholder="Ex: Artesanal, 0% Lactose" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">
+                        Adicionar ao Cardápio
+                    </button>
+                </form>
+            </div>
+
+            <div class="panel-card">
+                <h3 class="section-title">Catálogo Atual da Sorveteria</h3>
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Categoria</th>
+                                <th>Detalhe</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="catalog-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="./gestao.js"></script>
+</body>
+</html>

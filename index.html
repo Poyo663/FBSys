@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frut Bom - Sistema de Pedidos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-container">
+            <div class="brand-group">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-ice-cream"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">Frut Bom</h1>
+                    <p class="brand-subtitle">Sorveteria & Gelateria</p>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link active">Novo Pedido</a>
+                <a href="cozinha.html" class="nav-link">Cozinha (KDS)</a>
+                <a href="gestao.html" class="nav-link">Gestão & Relatórios</a>
+            </nav>
+
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span>Atendimento Online • Cascavel</span>
+            </div>
+        </div>
+
+        <!-- Barra de Progresso -->
+        <div class="steps-bar">
+            <div class="steps-track">
+                <div id="step-indicator-1" class="step-indicator active">
+                    <span class="step-circle">1</span>
+                    <span class="step-text">Recipiente</span>
+                </div>
+                <div class="step-line"></div>
+
+                <div id="step-indicator-2" class="step-indicator">
+                    <span class="step-circle">2</span>
+                    <span class="step-text">Sabores</span>
+                </div>
+                <div class="step-line"></div>
+
+                <div id="step-indicator-3" class="step-indicator">
+                    <span class="step-circle">3</span>
+                    <span class="step-text">Acompanhamentos</span>
+                </div>
+                <div class="step-line"></div>
+
+                <div id="step-indicator-4" class="step-indicator">
+                    <span class="step-circle">4</span>
+                    <span class="step-text">Revisão</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <div class="order-layout">
+
+            <!-- Coluna Esquerda: Etapas -->
+            <div class="panel-card">
+
+                <!-- ETAPA 1: Recipiente -->
+                <section id="step-1" class="step-content">
+                    <div class="step-header">
+                        <div>
+                            <h2 class="step-title">1. Escolha a Base ou Recipiente</h2>
+                            <p class="step-subtitle">Selecione o tamanho ideal para o seu sorvete.</p>
+                        </div>
+                    </div>
+
+                    <div class="container-grid">
+                        <div onclick="selectContainer('Copo 200ml', 8.00, 2, this)" class="container-option">
+                            <div>
+                                <div class="container-name">Copo 200ml</div>
+                                <div class="container-info">Até 2 bolas de sorvete</div>
+                            </div>
+                            <span class="container-price">R$ 8,00</span>
+                        </div>
+
+                        <div onclick="selectContainer('Copo 300ml', 12.00, 3, this)" class="container-option">
+                            <div>
+                                <div class="container-name">Copo 300ml</div>
+                                <div class="container-info">Até 3 bolas de sorvete</div>
+                            </div>
+                            <span class="container-price">R$ 12,00</span>
+                        </div>
+
+                        <div onclick="selectContainer('Casquinha Simples', 9.50, 2, this)" class="container-option">
+                            <div>
+                                <div class="container-name">Casquinha Simples</div>
+                                <div class="container-info">Crocante, até 2 bolas</div>
+                            </div>
+                            <span class="container-price">R$ 9,50</span>
+                        </div>
+
+                        <div onclick="selectContainer('Cascão Especial', 15.00, 3, this)" class="container-option">
+                            <div>
+                                <div class="container-name">Cascão Especial</div>
+                                <div class="container-info">Borda recheada de Nutella, até 3 bolas</div>
+                            </div>
+                            <span class="container-price">R$ 15,00</span>
+                        </div>
+                    </div>
+
+                    <div class="step-actions end">
+                        <button onclick="goToStep(2)" id="btn-step1-next" disabled class="btn btn-primary">
+                            Próximo: Escolher Sabores
+                        </button>
+                    </div>
+                </section>
+
+                <!-- ETAPA 2: Sabores -->
+                <section id="step-2" class="step-content hidden">
+                    <div class="step-header">
+                        <div>
+                            <h2 class="step-title">2. Selecione os Sabores</h2>
+                            <p class="step-subtitle">Você pode escolher até <strong id="max-flavors-count">2</strong> bola(s).</p>
+                        </div>
+                        <span id="flavor-counter" class="counter-pill">0 de 2 selecionados</span>
+                    </div>
+
+                    <!-- Renderizado dinamicamente a partir do catálogo -->
+                    <div class="flavors-grid" id="flavors-container"></div>
+
+                    <div class="step-actions">
+                        <button onclick="goToStep(1)" class="btn btn-outline">Voltar</button>
+                        <button onclick="goToStep(3)" id="btn-step2-next" disabled class="btn btn-primary">
+                            Próximo: Adicionais
+                        </button>
+                    </div>
+                </section>
+
+                <!-- ETAPA 3: Acompanhamentos -->
+                <section id="step-3" class="step-content hidden">
+                    <div class="step-header">
+                        <div>
+                            <h2 class="step-title">3. Caldas e Acompanhamentos</h2>
+                            <p class="step-subtitle">Dê o toque final ao seu sorvete Frut Bom.</p>
+                        </div>
+                    </div>
+
+                    <div class="group-label">Caldas</div>
+                    <div class="toppings-grid">
+                        <label class="topping-option">
+                            <span class="topping-left">
+                                <input type="checkbox" onchange="toggleTopping('Calda de Chocolate', 0.00, this)">
+                                <span>Calda de Chocolate</span>
+                            </span>
+                            <span class="topping-price free">Grátis</span>
+                        </label>
+
+                        <label class="topping-option">
+                            <span class="topping-left">
+                                <input type="checkbox" onchange="toggleTopping('Calda de Morango', 0.00, this)">
+                                <span>Calda de Morango</span>
+                            </span>
+                            <span class="topping-price free">Grátis</span>
+                        </label>
+
+                        <label class="topping-option">
+                            <span class="topping-left">
+                                <input type="checkbox" onchange="toggleTopping('Caramelo Salgado', 1.50, this)">
+                                <span>Caramelo Salgado</span>
+                            </span>
+                            <span class="topping-price">+R$ 1,50</span>
+                        </label>
+                    </div>
+
+                    <div class="group-label">Toppings Crocantes</div>
+                    <div class="toppings-grid">
+                        <label class="topping-option">
+                            <span class="topping-left">
+                                <input type="checkbox" onchange="toggleTopping('Granulado Premium', 1.00, this)">
+                                <span>Granulado Premium</span>
+                            </span>
+                            <span class="topping-price">+R$ 1,00</span>
+                        </label>
+
+                        <label class="topping-option">
+                            <span class="topping-left">
+                                <input type="checkbox" onchange="toggleTopping('Castanha Triturada', 2.00, this)">
+                                <span>Castanha Triturada</span>
+                            </span>
+                            <span class="topping-price">+R$ 2,00</span>
+                        </label>
+
+                        <label class="topping-option">
+                            <span class="topping-left">
+                                <input type="checkbox" onchange="toggleTopping('Confetes de Chocolate', 1.50, this)">
+                                <span>Confetes de Chocolate</span>
+                            </span>
+                            <span class="topping-price">+R$ 1,50</span>
+                        </label>
+
+                        <label class="topping-option">
+                            <span class="topping-left">
+                                <input type="checkbox" onchange="toggleTopping('Chantilly Fresco', 2.50, this)">
+                                <span>Chantilly Fresco</span>
+                            </span>
+                            <span class="topping-price">+R$ 2,50</span>
+                        </label>
+                    </div>
+
+                    <div class="step-actions">
+                        <button onclick="goToStep(2)" class="btn btn-outline">Voltar</button>
+                        <button onclick="goToStep(4)" class="btn btn-primary">Revisar Pedido</button>
+                    </div>
+                </section>
+
+                <!-- ETAPA 4: Identificação e Revisão -->
+                <section id="step-4" class="step-content hidden">
+                    <div class="step-header">
+                        <div>
+                            <h2 class="step-title">4. Identificação e Finalização</h2>
+                            <p class="step-subtitle">Identifique o cliente para chamar pelo nome no balcão.</p>
+                        </div>
+                    </div>
+
+                    <div class="review-box">
+                        <div class="form-group">
+                            <label class="form-label">Nome do Cliente *</label>
+                            <input type="text" id="customer-name" class="form-control" placeholder="Ex: Maria Oliveira">
+                        </div>
+
+                        <div class="form-row-2">
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label class="form-label">WhatsApp / Telefone (Opcional)</label>
+                                <input type="tel" id="customer-phone" class="form-control" placeholder="(85) 99999-9999">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label class="form-label">Forma de Pagamento</label>
+                                <select id="payment-method" class="form-control">
+                                    <option value="Pix">Pix (QR Code no Balcão)</option>
+                                    <option value="Cartão Débito / Crédito">Cartão Débito / Crédito</option>
+                                    <option value="Dinheiro">Dinheiro em Espécie</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-alert">
+                        <strong>Resumo do Pedido</strong>
+                        <div id="final-summary-details"></div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button onclick="goToStep(3)" class="btn btn-outline">Voltar</button>
+                        <button onclick="submitOrder()" class="btn btn-mint">Confirmar e Enviar Pedido</button>
+                    </div>
+                </section>
+
+                <!-- TELA DE CONFIRMAÇÃO -->
+                <section id="step-success" class="success-box hidden">
+                    <span class="success-badge">Pedido #<span id="order-id">105</span> Enviado</span>
+                    <h2 class="page-title">Pedido na Fila da Cozinha</h2>
+                    <p class="page-desc" style="max-width:420px; margin:0.4rem auto;">
+                        Obrigado, <strong id="success-customer-name">Cliente</strong>. Seu pedido já foi encaminhado ao painel de preparo.
+                    </p>
+
+                    <div class="success-status-card">
+                        <div class="status-row">
+                            <span>Status:</span>
+                            <strong style="color:#D97706;">Recebido na Cozinha</strong>
+                        </div>
+                        <div class="status-row">
+                            <span>Tempo Médio:</span>
+                            <strong>Aprox. 4 minutos</strong>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:0.75rem; justify-content:center; margin-top:1.25rem;">
+                        <button onclick="resetForm()" class="btn btn-choco">Fazer Novo Pedido</button>
+                        <a href="cozinha.html" class="btn btn-outline" style="text-decoration:none;">Ver na Cozinha</a>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Coluna Direita: Resumo Lateral -->
+            <aside class="summary-sticky">
+                <div class="summary-header">
+                    <h3 class="section-title" style="margin:0;">Seu Pedido</h3>
+                    <span class="counter-pill" id="summary-container-name">Nenhum</span>
+                </div>
+
+                <div class="summary-body" id="summary-items-container">
+                    <div class="summary-empty">Selecione a base do seu sorvete para começar</div>
+                </div>
+
+                <div class="summary-totals">
+                    <div class="status-row">
+                        <span>Base:</span>
+                        <span id="price-base">R$ 0,00</span>
+                    </div>
+                    <div class="status-row">
+                        <span>Adicionais:</span>
+                        <span id="price-toppings">R$ 0,00</span>
+                    </div>
+                    <div class="summary-grand-total">
+                        <span>Total:</span>
+                        <span id="price-total">R$ 0,00</span>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <script src="./main.js"></script>
+</body>
+</html>

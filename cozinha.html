@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frut Bom - Painel da Cozinha (KDS)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-container">
+            <div class="brand-group">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-ice-cream"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">Frut Bom</h1>
+                    <p class="brand-subtitle">Sorveteria & Gelateria</p>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Novo Pedido</a>
+                <a href="cozinha.html" class="nav-link active">Cozinha (KDS)</a>
+                <a href="gestao.html" class="nav-link">Gestão & Relatórios</a>
+            </nav>
+
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span>Operação Ativa • Cascavel</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <div class="page-header">
+            <div>
+                <h2 class="page-title">Fila de Preparo em Tempo Real</h2>
+                <p class="page-desc">Acompanhe os pedidos do balcão e atualize o andamento para retirada.</p>
+            </div>
+            <button class="btn btn-outline" onclick="simulateNewOrder()">
+                <i class="fa-solid fa-plus"></i> Simular Pedido Recebido
+            </button>
+        </div>
+
+        <div class="kds-layout">
+            <!-- Quadro Kanban -->
+            <div class="kanban-board">
+                <!-- Coluna 1: Recebido -->
+                <section class="kanban-col col-recebido">
+                    <div class="kanban-col-header">
+                        <span class="kanban-col-title">Recebido</span>
+                        <span class="col-count" id="count-recebido">0</span>
+                    </div>
+                    <div id="list-recebido" class="flex-col" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+                </section>
+
+                <!-- Coluna 2: Em Preparo -->
+                <section class="kanban-col col-preparo">
+                    <div class="kanban-col-header">
+                        <span class="kanban-col-title">Em Preparo</span>
+                        <span class="col-count" id="count-preparo">0</span>
+                    </div>
+                    <div id="list-preparo" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+                </section>
+
+                <!-- Coluna 3: Pronto -->
+                <section class="kanban-col col-pronto">
+                    <div class="kanban-col-header">
+                        <span class="kanban-col-title">Pronto para Retirada</span>
+                        <span class="col-count" id="count-pronto">0</span>
+                    </div>
+                    <div id="list-pronto" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+                </section>
+            </div>
+
+            <!-- Barra Lateral: Disponibilidade Rápida (RF04) -->
+            <aside class="panel-card">
+                <h3 class="section-title" style="margin-bottom:0.25rem;">Disponibilidade na Vitrine</h3>
+                <p class="page-desc">Bloqueie sabores esgotados instantaneamente.</p>
+                <div class="stock-list" id="quick-stock-list">
+                    <!-- Preenchido via JS -->
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="./cozinha.js"></script>
+</body>
+</html>
